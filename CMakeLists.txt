@@ -8,13 +8,13 @@ project(TEST)
 enable_testing()
 
 #Prep ourselves for compiling boost
-find_package(Boost COMPONENTS 
+find_package(Boost COMPONENTS
     unit_test_framework REQUIRED
     system REQUIRED
     thread REQUIRED
 )
 
-set(MONERO_SRC "contrib/monero-core-custom")
+set(MONERO_SRC "contrib/bc-core-custom")
 
 include_directories(${Boost_INCLUDE_DIRS})
 include_directories("src")
@@ -34,7 +34,7 @@ include_directories("${MONERO_SRC}/contrib/libsodium/include") # support sodium/
 include_directories("${MONERO_SRC}/contrib/libsodium/include/sodium")
 include_directories("test")
 
-# keeping test files in a separate source directory 
+# keeping test files in a separate source directory
 file(GLOB TEST_SRCS RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} test/test_*.cpp)
 
 set(
@@ -122,16 +122,16 @@ foreach(testSrc ${TEST_SRCS})
     target_link_libraries(
         ${testName}
         #
-        ${Boost_LIBRARIES} 
+        ${Boost_LIBRARIES}
     )
     set_target_properties(
-        ${testName} PROPERTIES 
+        ${testName} PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY
         ${CMAKE_CURRENT_SOURCE_DIR}/build/products
     )
     add_test(
-        NAME ${testName} 
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/products 
+        NAME ${testName}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/products
         COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/build/products/${testName} --catch_system_error=yes
     )
 endforeach(testSrc)
